@@ -1,0 +1,22 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+}
+
+group 'ndwinton'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    testImplementation 'io.kotest:kotest-runner-junit5:4.2.6' // for kotest framework
+    testImplementation 'io.kotest:kotest-assertions-core:4.2.6' // for kotest core jvm assertions
+    testImplementation 'io.kotest:kotest-property:4.2.6' // for kotest property test
+}
+
+test {
+    useJUnitPlatform()
+}
