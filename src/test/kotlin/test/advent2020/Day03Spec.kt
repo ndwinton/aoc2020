@@ -44,4 +44,10 @@ class Day03Spec : FunSpec({
         map.countTrees(3, 1).shouldBe(7)
         map.countTrees(0, 1).shouldBe(3)
     }
+
+    test("Product for multiple strategies") {
+        val map = Day03(mapData)
+
+        map.productForStrategies(listOf(Pair(3, 1), Pair(0, 1))).shouldBe(21)
+    }
 })
