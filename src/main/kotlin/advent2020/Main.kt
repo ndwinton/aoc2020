@@ -6,6 +6,7 @@ fun main(args: Array<String>) {
     when (args[0]) {
         "1" -> runDay01(args)
         "2" -> runDay02(args)
+        "3" -> runDay03(args)
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -15,6 +16,7 @@ fun main(args: Array<String>) {
         
             1 how-many-in-sum input-file
             2 version input-file (where version is 1 or 2)
+            3 input-file
             """.trimIndent())
     }
 }
@@ -27,6 +29,7 @@ fun runDay02(args: Array<String>) = when (args[1]) {
     else -> println("Huh?")
 }
 
+fun runDay03(args: Array<String>) = println(Day03(fileToLines(args[1])).countTrees(3, 1))
 fun fileToLines(filename: String) = File(filename).readLines()
 fun fileToInts(filename: String) = File(filename).readLines().map { it.toInt() }
 
