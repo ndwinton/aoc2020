@@ -1,12 +1,14 @@
 package advent2020
 
 import java.io.File
+import java.io.Reader
 
 fun main(args: Array<String>) {
     when (args[0]) {
         "1" -> runDay01()
         "2" -> runDay02()
         "3" -> runDay03()
+        "4" -> runDay04()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -35,9 +37,15 @@ fun runDay03() {
     println("Part 2: $product")
 }
 
-fun inputFileForDay(num: Int) = File(String.format("inputs/%02d.txt", num))
-fun inputLines(dayNum: Int): List<String> =
-    if (inputFileForDay(dayNum).exists()) inputFileForDay(dayNum).readLines()
-    else System.`in`.bufferedReader().readLines()
+fun runDay04() {
+    println("Part 1: " + inputAsText(4).countValidRecords())
+}
+fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
+    .let { if (it.exists()) it.bufferedReader() else System.`in`.bufferedReader() }
+
+fun inputLines(dayNum: Int): List<String> = inputForDay(dayNum).readLines()
+
 fun inputAsIntList(dayNum: Int) = inputLines(dayNum).map { it.toInt() }
+
+fun inputAsText(dayNum: Int) = inputForDay(dayNum).readText()
 
