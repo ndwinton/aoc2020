@@ -38,7 +38,8 @@ fun runDay03() {
 }
 
 fun runDay04() {
-    println("Part 1: " + inputAsText(4).countValidRecords())
+    println("Part 1: " + inputAsText(4).toRecordsWithMandatoryKeys().count())
+    println("Part 2: " + inputAsText(4).countValidPassportRecords())
 }
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
     .let { if (it.exists()) it.bufferedReader() else System.`in`.bufferedReader() }

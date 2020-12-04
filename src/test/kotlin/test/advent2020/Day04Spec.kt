@@ -1,9 +1,6 @@
 package test.advent2020
 
-import advent2020.containsMandatoryKeys
-import advent2020.toKeyValuePairMap
-import advent2020.toSingleLines
-import advent2020.countValidRecords
+import advent2020.*
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
@@ -58,6 +55,83 @@ class Day04Spec : FunSpec ({
     }
 
     test("Valid record count") {
-        input.countValidRecords().shouldBe(2)
+        input.toRecordsWithMandatoryKeys().count().shouldBe(2)
+    }
+
+    test("Validating byr") {
+        Pair("byr", "2002").validateField().shouldBe(true)
+        Pair("byr", "2003").validateField().shouldBe(false)
+        Pair("byr", "1919").validateField().shouldBe(false)
+        Pair("byr", "1920").validateField().shouldBe(true)
+        Pair("byr", "02000").validateField().shouldBe(false)
+    }
+
+    test("Validating iyr") {
+        Pair("iyr", "2010").validateField().shouldBe(true)
+        Pair("iyr", "2020").validateField().shouldBe(true)
+        Pair("iyr", "1919").validateField().shouldBe(false)
+        Pair("iyr", "2009").validateField().shouldBe(false)
+        Pair("iyr", "2021").validateField().shouldBe(false)
+    }
+
+    test("Validating eyr") {
+        Pair("eyr", "2020").validateField().shouldBe(true)
+        Pair("eyr", "2030").validateField().shouldBe(true)
+        Pair("eyr", "1919").validateField().shouldBe(false)
+        Pair("eyr", "2019").validateField().shouldBe(false)
+        Pair("eyr", "2031").validateField().shouldBe(false)
+    }
+
+    test("Validating hgt") {
+        Pair("hgt", "60in").validateField().shouldBe(true)
+        Pair("hgt", "190cm").validateField().shouldBe(true)
+        Pair("hgt", "190in").validateField().shouldBe(false)
+        Pair("hgt", "190").validateField().shouldBe(false)
+    }
+
+    test("Validating hcl") {
+        Pair("hcl", "#123abc").validateField().shouldBe(true)
+        Pair("hcl", "#123abz").validateField().shouldBe(false)
+        Pair("hcl", "123abc").validateField().shouldBe(false)
+    }
+
+    test("Validating ecl") {
+        Pair("ecl", "brn").validateField().shouldBe(true)
+        Pair("ecl", "wat").validateField().shouldBe(false)
+    }
+
+    test("Validating pid") {
+        Pair("pid", "000000001").validateField().shouldBe(true)
+        Pair("pid", "0123456789").validateField().shouldBe(false)
+    }
+
+    test("Validate cid") {
+        Pair("cid", "anything at all").validateField().shouldBe(true)
+    }
+
+    test("Validate entire map") {
+        val valid = mapOf(
+            "ecl" to "gry",
+            "pid" to "860033327",
+            "eyr" to "2020",
+            "hcl" to "#fffffd",
+            "byr" to "1937",
+            "iyr" to "2017",
+            "cid" to "147",
+            "hgt" to "183cm"
+        )
+        valid.validatePassportData().shouldBe(true)
+
+        val invalid = mapOf(
+            "ecl" to "gry",
+            "pid" to "860033327",
+            "eyr" to "2020",
+            "hcl" to "#fffffd",
+            "byr" to "1937",
+            "iyr" to "2001",
+            "cid" to "147",
+            "hgt" to "283cm"
+        )
+        invalid.validatePassportData().shouldBe(false)
     }
 })
