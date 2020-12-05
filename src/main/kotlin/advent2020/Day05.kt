@@ -16,10 +16,13 @@ fun decodeColumn(pass: String) =
 
 fun decodePassId(pass: String) = decodeRow(pass) * 8 + decodeColumn(pass)
 
+fun highestPassIdInInput(lines: List<String>) = lines.map { decodePassId(it) }.maxOf { it }
+
 // Trying to do this only using functional operations, no explicit loops
+
 fun findMissing(list: List<Int>) =
     list.sorted()
-        .mapIndexed { index, i -> Pair(index, i) }
-        .let { map ->
-            map.find { it.second - it.first != map.first().second - map.first().first }
-        }!!.second - 1
+        .let { it.zip(it.drop(1)) }
+        .find { it.second - it.first > 1 }!!.second - 1
+
+fun missingPassIdInInput(lines: List<String>) = lines.map { decodePassId(it) }.let { findMissing(it) }

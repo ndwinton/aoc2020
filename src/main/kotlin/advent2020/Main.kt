@@ -39,8 +39,8 @@ fun runDay03() {
 }
 
 fun runDay05() {
-    println("Part 1: " + inputLines(5).map { decodePassId(it) }.maxOf { it })
-    println("Part 2: " + inputLines(5).map { decodePassId(it) }.let { findMissing(it) })
+    println("Part 1: " + highestPassIdInInput(inputLines(5)))
+    println("Part 2: " + missingPassIdInInput(inputLines(5)))
 }
 
 fun runDay04() {
