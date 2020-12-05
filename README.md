@@ -14,5 +14,11 @@ of duplicate values appearing in the input, although no such values actually
 appeared in the supplied file.
 
 I like to try to find a generally functional-style solution, even if there
-may be a simpler procedural approach because, again, it's good practice (in
-both senses of that phrase). 
+may be a simpler procedural approach because, again, it's good practice.
+I hope that things are reasonably readable. I aim to keep functions short
+and to name things clearly (well, clearly to me ...).
+
+I'm also experimenting a bit with different Kotlin idioms, so there might
+be different styles from day-to-day. For example, on day 3 I was going for
+a recursive solution and on day 4 I made everything an extension function,
+for no very profound reason.

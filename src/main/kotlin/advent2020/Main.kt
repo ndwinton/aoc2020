@@ -9,6 +9,7 @@ fun main(args: Array<String>) {
         "2" -> runDay02()
         "3" -> runDay03()
         "4" -> runDay04()
+        "5" -> runDay05()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -35,6 +36,11 @@ fun runDay03() {
     println("Part 1: " + map.countTrees(3, 1))
     val product = map.productForStrategies(listOf(Pair(1, 1), Pair(3, 1), Pair(5, 1), Pair(7, 1), Pair(1, 2)))
     println("Part 2: $product")
+}
+
+fun runDay05() {
+    println("Part 1: " + inputLines(5).map { decodePassId(it) }.maxOf { it })
+    println("Part 2: " + inputLines(5).map { decodePassId(it) }.let { findMissing(it) })
 }
 
 fun runDay04() {
