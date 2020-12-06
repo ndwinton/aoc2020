@@ -10,6 +10,7 @@ fun main(args: Array<String>) {
         "3" -> runDay03()
         "4" -> runDay04()
         "5" -> runDay05()
+        "6" -> runDay06()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -38,14 +39,19 @@ fun runDay03() {
     println("Part 2: $product")
 }
 
+fun runDay04() {
+    println("Part 1: " + inputAsText(4).toRecordsWithMandatoryKeys().count())
+    println("Part 2: " + inputAsText(4).countValidPassportRecords())
+}
+
 fun runDay05() {
     println("Part 1: " + highestPassIdInInput(inputLines(5)))
     println("Part 2: " + missingPassIdInInput(inputLines(5)))
 }
 
-fun runDay04() {
-    println("Part 1: " + inputAsText(4).toRecordsWithMandatoryKeys().count())
-    println("Part 2: " + inputAsText(4).countValidPassportRecords())
+fun runDay06() {
+    println("Part 1: " + totalDistinctForGroups(inputAsText(6)))
+    println("Part 1: " + totalCommonForGroups(inputAsText(6)))
 }
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
     .let { if (it.exists()) it.bufferedReader() else System.`in`.bufferedReader() }
