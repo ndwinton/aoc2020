@@ -22,7 +22,7 @@ fun highestPassIdInInput(lines: List<String>) = lines.map { decodePassId(it) }.m
 
 fun findMissing(list: List<Int>) =
     list.sorted()
-        .let { it.zip(it.drop(1)) }
+        .zipWithNext()
         .find { it.second - it.first > 1 }!!.second - 1
 
 fun missingPassIdInInput(lines: List<String>) = findMissing(lines.map { decodePassId(it) })
