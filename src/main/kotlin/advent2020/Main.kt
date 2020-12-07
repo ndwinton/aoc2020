@@ -11,6 +11,7 @@ fun main(args: Array<String>) {
         "4" -> runDay04()
         "5" -> runDay05()
         "6" -> runDay06()
+        "7" -> runDay07()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -53,6 +54,12 @@ fun runDay06() {
     println("Part 1: " + totalDistinctForGroups(inputAsText(6)))
     println("Part 1: " + totalCommonForGroups(inputAsText(6)))
 }
+
+fun runDay07() {
+    println("Part 1: " + findAllHolders("shiny gold", inputLines(7)).size)
+    println("Part 2: " + (totalContentsForColour("shiny gold", inputLines(7)) - 1))
+}
+
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
     .let { if (it.exists()) it.bufferedReader() else System.`in`.bufferedReader() }
 
