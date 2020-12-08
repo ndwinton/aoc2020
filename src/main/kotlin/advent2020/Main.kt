@@ -12,6 +12,7 @@ fun main(args: Array<String>) {
         "5" -> runDay05()
         "6" -> runDay06()
         "7" -> runDay07()
+        "8" -> runDay08()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -58,6 +59,13 @@ fun runDay06() {
 fun runDay07() {
     println("Part 1: " + findAllHolders("shiny gold", inputLines(7)).size)
     println("Part 2: " + (totalContentsForColour("shiny gold", inputLines(7)) - 1))
+}
+
+fun runDay08() {
+    val program = Program.parse(inputLines(8))
+    program.run()
+    println("Part 1: " + program.accumulator)
+    println("Part 2: " + findFixedProgramResult(program, 0))
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
