@@ -64,8 +64,8 @@ fun runDay07() {
 
 fun runDay08() {
     val program = Program.parse(inputLines(8))
-    program.run()
-    println("Part 1: " + program.accumulator)
+    val state = program.run()
+    println("Part 1: " + state.accumulator)
     println("Part 2: " + findFixedProgramResult(program, 0))
 }
 

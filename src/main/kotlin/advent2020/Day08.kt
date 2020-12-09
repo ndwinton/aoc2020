@@ -23,9 +23,9 @@ class Nop(arg: Int) : OpCode(arg)
 class Acc(arg: Int) : OpCode(arg)
 class Jmp(arg: Int) : OpCode(arg)
 
-// OK, so I could go for a pure functional approach to modelling a CPU
-// but mutable state makes much more sense here ...
-class Program(val opCodes: List<OpCode>, var accumulator: Int = 0, var pc: Int = 0) {
+data class ProgramState(val accumulator: Int, val pc: Int, val completed: Boolean)
+
+class Program(val opCodes: List<OpCode>) {
 
     companion object {
         fun parse(lines: List<String>) =
@@ -40,28 +40,21 @@ class Program(val opCodes: List<OpCode>, var accumulator: Int = 0, var pc: Int =
             })
     }
 
-    fun run(): Boolean {
-        val visited = BooleanArray(opCodes.size) { false }
-
-        while (pc < opCodes.size && !visited[pc]) {
-            val op = opCodes[pc]
-            visited[pc] = true
-            when (op) {
-                is Nop -> pc++
-                is Acc -> {
-                    accumulator += op.arg
-                    pc++
-                }
-                is Jmp -> pc += op.arg
-            }
+    tailrec fun run(accumulator: Int = 0, pc: Int = 0, visited: Set<Int> = emptySet()): ProgramState =
+        when {
+            visited.contains(pc) -> ProgramState(accumulator, pc, false)
+            pc >= opCodes.size -> ProgramState(accumulator, pc, true)
+            opCodes[pc] is Acc -> run(accumulator + opCodes[pc].arg, pc + 1, visited + pc)
+            opCodes[pc] is Jmp -> run(accumulator, pc + opCodes[pc].arg, visited + pc)
+            else -> run(accumulator, pc + 1, visited + pc)
         }
-        return pc >= opCodes.size
-    }
 }
 
-tailrec fun findFixedProgramResult(program: Program, opIndex: Int, newProgram: Program = program): Int =
-    if (newProgram.run()) newProgram.accumulator
+tailrec fun findFixedProgramResult(program: Program, opIndex: Int, newProgram: Program = program): Int {
+    val state = newProgram.run()
+    return if (state.completed) state.accumulator
     else findFixedProgramResult(program, opIndex + 1, Program(mutateOpCodeList(program.opCodes, opIndex)))
+}
 
 fun mutateOpCodeList(opCodes: List<OpCode>, opIndex: Int) =
     opCodes.take(opIndex) + mutateOpCode(opCodes[opIndex]) + opCodes.drop(opIndex + 1)

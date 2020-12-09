@@ -25,51 +25,56 @@ class Day08Spec : FunSpec({
     test("Running nop to completion") {
         val program = Program(listOf(Nop(20)))
 
-        program.run()
+        val state = program.run()
 
-        program.accumulator.shouldBe(0)
-        program.pc.shouldBe(1)
+        state.accumulator.shouldBe(0)
+        state.pc.shouldBe(1)
+        state.completed.shouldBe(true)
     }
 
     test("Running acc to completion") {
         val program = Program(listOf(Acc(20), Acc(10)))
 
-        program.run()
+        val state = program.run()
 
-        program.accumulator.shouldBe(30)
-        program.pc.shouldBe(2)
+        state.accumulator.shouldBe(30)
+        state.pc.shouldBe(2)
+        state.completed.shouldBe(true)
     }
 
     test("Running jmp to completion") {
         val program = Program(listOf(Jmp(2), Acc(1)))
 
-        program.run()
+        val state = program.run()
 
-        program.accumulator.shouldBe(0)
-        program.pc.shouldBe(2)
+        state.accumulator.shouldBe(0)
+        state.pc.shouldBe(2)
+        state.completed.shouldBe(true)
     }
 
     test("Program terminates on loop") {
         val program = Program(listOf(Nop(0), Acc(10), Jmp(-1)))
 
-        program.run()
+        val state = program.run()
 
-        program.accumulator.shouldBe(10)
-        program.pc.shouldBe(1)
+        state.accumulator.shouldBe(10)
+        state.pc.shouldBe(1)
+        state.completed.shouldBe(false)
     }
 
     test("Example input") {
         val program = Program.parse(input)
 
-        program.run()
+        val state = program.run()
 
-        program.accumulator.shouldBe(5)
-        program.pc.shouldBe(1)
+        state.accumulator.shouldBe(5)
+        state.pc.shouldBe(1)
+        state.completed.shouldBe(false)
     }
 
     test("Termination codes") {
-        Program(listOf(Nop(0))).run().shouldBe(true)    // Normal
-        Program(listOf(Jmp(0))).run().shouldBe(false)   // Loop
+        Program(listOf(Nop(0))).run().completed.shouldBe(true)    // Normal
+        Program(listOf(Jmp(0))).run().completed.shouldBe(false)   // Loop
     }
 
     test("Fixing program") {
