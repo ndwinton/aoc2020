@@ -5,11 +5,12 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
 class Day06Spec : FunSpec({
-    test("Distict question in a group") {
+    test("Distinct question in a group") {
         distinctQuestionsInGroup("""abcx
             |abcy
             |abcz""".trimMargin()).shouldBe(6)
     }
+
     test("Counting unique values in multiple group") {
         totalDistinctForGroups("""
                 abc
