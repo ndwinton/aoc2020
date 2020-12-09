@@ -13,6 +13,7 @@ fun main(args: Array<String>) {
         "6" -> runDay06()
         "7" -> runDay07()
         "8" -> runDay08()
+        "9" -> runDay09()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -68,12 +69,19 @@ fun runDay08() {
     println("Part 2: " + findFixedProgramResult(program, 0))
 }
 
+fun runDay09() {
+    println("Part 1: " + findFirstInvalidAfterPreamble(25, inputAsLongList(9)))
+    println("Part 2: " + encryptionWeakness(25, inputAsLongList(9)))
+}
+
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
     .let { if (it.exists()) it.bufferedReader() else System.`in`.bufferedReader() }
 
 fun inputLines(dayNum: Int): List<String> = inputForDay(dayNum).readLines()
 
 fun inputAsIntList(dayNum: Int) = inputLines(dayNum).map { it.toInt() }
+
+fun inputAsLongList(dayNum: Int) = inputLines(dayNum).map { it.toLong() }
 
 fun inputAsText(dayNum: Int) = inputForDay(dayNum).readText()
 
