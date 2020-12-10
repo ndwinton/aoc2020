@@ -14,6 +14,7 @@ fun main(args: Array<String>) {
         "7" -> runDay07()
         "8" -> runDay08()
         "9" -> runDay09()
+        "10" -> runDay10()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -72,6 +73,11 @@ fun runDay08() {
 fun runDay09() {
     println("Part 1: " + findFirstInvalidAfterPreamble(25, inputAsLongList(9)))
     println("Part 2: " + encryptionWeakness(25, inputAsLongList(9)))
+}
+
+fun runDay10() {
+    println("Part 1: " + joltageDifferences(inputAsIntList(10)).let { it.first * it.second })
+    println("Part 2: " + joltageCombinations(inputAsIntList(10)))
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
