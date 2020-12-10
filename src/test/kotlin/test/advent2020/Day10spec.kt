@@ -1,11 +1,8 @@
 package test.advent2020
 
-import advent2020.joltageCombinations
+import advent2020.adapterCombinations
 import advent2020.joltageDifferences
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.data.headers
-import io.kotest.data.row
-import io.kotest.data.table
 import io.kotest.matchers.shouldBe
 
 class Day10spec : FunSpec({
@@ -68,20 +65,10 @@ class Day10spec : FunSpec({
     }
 
     test("Combinations for small example") {
-        joltageCombinations(list1).shouldBe(8)
+        adapterCombinations(list1).shouldBe(8)
     }
 
     test("Combinations for large example") {
-        joltageCombinations(list2).shouldBe(19208)
-    }
-
-    test("Serial combinations") {
-        joltageCombinations(listOf(1)).shouldBe(1)
-        joltageCombinations(listOf(1, 2)).shouldBe(2)
-        joltageCombinations(listOf(1, 2, 3)).shouldBe(4)
-        joltageCombinations(listOf(1, 2, 3, 4)).shouldBe(7)
-        joltageCombinations(listOf(1, 2, 3, 4, 5)).shouldBe(13)
-        joltageCombinations(listOf(1, 2, 3, 4, 5, 6)).shouldBe(24)
-        joltageCombinations(listOf(1, 2, 3, 4, 5, 6, 7)).shouldBe(44)
+        adapterCombinations(list2).shouldBe(19208)
     }
 })
