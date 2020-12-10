@@ -77,7 +77,7 @@ fun runDay09() {
 
 fun runDay10() {
     println("Part 1: " + joltageDifferences(inputAsIntList(10)).let { it.first * it.second })
-    println("Part 2: " + joltageCombinations(inputAsIntList(10)))
+    println("Part 2: " + adapterCombinations(inputAsIntList(10)))
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
