@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
         "8" -> runDay08()
         "9" -> runDay09()
         "10" -> runDay10()
+        "11" -> runDay11()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -78,6 +79,11 @@ fun runDay09() {
 fun runDay10() {
     println("Part 1: " + joltageDifferences(inputAsIntList(10)).let { it.first * it.second })
     println("Part 2: " + adapterCombinations(inputAsIntList(10)))
+}
+
+fun runDay11() {
+    val grid = Grid.fromSpec(inputLines(11))
+    println("Part 1: " + grid.iterateUntilStable().totalOccupied())
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
