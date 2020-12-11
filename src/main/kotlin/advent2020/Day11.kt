@@ -40,7 +40,7 @@ class Grid(val grid: List<List<Cell>>, val part2Rules: Boolean = false) {
     tailrec fun iterateUntilStable(previous: Grid = this, count: Int = 0): Grid {
         val next = previous.iterate()
 
-        return if (next == previous) { println("Interations: $count"); next }
+        return if (next == previous) next
         else iterateUntilStable(next, count + 1)
     }
 
