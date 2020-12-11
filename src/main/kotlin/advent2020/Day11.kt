@@ -70,14 +70,12 @@ class Grid(val grid: List<List<Cell>>, val part2Rules: Boolean = false) {
 
 
     fun sliceOccupancy(row: Int, col: Int, rowDirection: Int, colDirection: Int): Int {
-        var curRow = row
-        var curCol = col
-        while ((curRow + rowDirection) in 0 until rows && (curCol + colDirection) in 0 until columns) {
-            curRow += rowDirection
-            curCol += colDirection
-            if (get(curRow, curCol).chair) return get(curRow, curCol).occupancy
-        }
-        return 0
+        val pairSeq = generateSequence(Pair(row + rowDirection, col + colDirection)) { Pair(it.first + rowDirection, it.second + colDirection) }
+        val chairPair = pairSeq
+            .takeWhile { it.first in 0 until rows && it.second in 0 until columns }
+            .firstOrNull { get(it.first, it.second).chair }
+
+        return if (chairPair == null) 0 else get(chairPair.first, chairPair.second).occupancy
     }
 
     fun totalOccupied(): Int = grid.sumOf { row -> row.sumBy { it.occupancy } }

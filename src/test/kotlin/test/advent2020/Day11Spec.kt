@@ -109,7 +109,7 @@ class Day11Spec : FunSpec({
 
     test("Slice occupancy") {
         val grid = Grid.fromSpec("""
-            L.L.L
+            #.L.L
             L.#.#
             #L.L#
             #.#.#
