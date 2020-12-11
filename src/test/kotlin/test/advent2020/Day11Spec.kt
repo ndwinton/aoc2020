@@ -107,21 +107,6 @@ class Day11Spec : FunSpec({
         result.totalOccupied().shouldBe(37)
     }
 
-    test("Obtaining a grid slice") {
-        val grid = Grid.fromSpec("""
-            L.L.L
-            L.#.#
-            #L.L#
-            #.#.#
-            #....
-        """.trimIndent().split("\n"))
-
-        grid.slice(0, 0, 1, 1).shouldBe(listOf(Floor, Floor,Floor, Floor))
-        grid.slice(4, 4, -1, -1).shouldBe(listOf(Floor, Floor, Floor, Empty))
-        grid.slice(2, 2, 0, -1).shouldBe(listOf(Empty, Full))
-        grid.slice(2, 2, -1, 0).shouldBe(listOf(Full, Empty))
-    }
-
     test("Slice occupancy") {
         val grid = Grid.fromSpec("""
             L.L.L

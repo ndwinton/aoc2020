@@ -69,24 +69,15 @@ class Grid(val grid: List<List<Cell>>, val part2Rules: Boolean = false) {
         sliceOccupancy(rowIndex, colIndex, 1, 1)
 
 
-    fun sliceOccupancy(row: Int, col: Int, rowDirection: Int, colDirection: Int) =
-        slice(row, col, rowDirection, colDirection).filter { it.chair }.firstOrNull()?.occupancy ?: 0
-
-    fun slice(row: Int, col: Int, rowDirection: Int, colDirection: Int): List<Cell> {
-        val rowRange = when (rowDirection) {
-            1 -> (row + 1) until rows
-            -1 -> (row - 1) downTo 0
-            0 -> IntArray(columns) { row }.toList()
-            else -> throw IllegalArgumentException("Whoops")
+    fun sliceOccupancy(row: Int, col: Int, rowDirection: Int, colDirection: Int): Int {
+        var curRow = row
+        var curCol = col
+        while ((curRow + rowDirection) in 0 until rows && (curCol + colDirection) in 0 until columns) {
+            curRow += rowDirection
+            curCol += colDirection
+            if (get(curRow, curCol).chair) return get(curRow, curCol).occupancy
         }
-        val colRange = when (colDirection) {
-            1 -> (col + 1) until columns
-            -1 -> (col - 1) downTo 0
-            0 -> IntArray(rows) { col }.toList()
-            else -> throw IllegalArgumentException("Whoops")
-        }
-
-        return rowRange.zip(colRange).map { grid[it.first][it.second] }
+        return 0
     }
 
     fun totalOccupied(): Int = grid.sumOf { row -> row.sumBy { it.occupancy } }
