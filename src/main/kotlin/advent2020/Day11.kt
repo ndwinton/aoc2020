@@ -15,9 +15,10 @@ object Empty : Cell(empty = true, chair = true)
 object Floor : Cell(empty = true, chair = false)
 
 
-class Grid(val grid: List<List<Cell>>) {
+class Grid(val grid: List<List<Cell>>, val part2Rules: Boolean = false) {
     val rows: Int = grid.size
     val columns: Int = grid[0].size
+    private val toleration: Int = if (part2Rules) 5 else 4
 
     operator fun get(row: Int, col: Int): Cell =
         if (row in 0 until rows && col in 0 until columns) grid[row][col]
@@ -32,18 +33,22 @@ class Grid(val grid: List<List<Cell>>) {
         Grid(grid.mapIndexed { rowIndex, row ->
             row.mapIndexed { colIndex, cell ->
                 val surrounding = adjacentOccupied(rowIndex, colIndex)
-                if (cell == Empty && surrounding == 0) Full else if (cell == Full && surrounding >= 4) Empty else cell
+                if (cell == Empty && surrounding == 0) Full else if (cell == Full && surrounding >= toleration) Empty else cell
             }
-        })
+        }, part2Rules)
 
-    tailrec fun iterateUntilStable(previous: Grid = this): Grid {
+    tailrec fun iterateUntilStable(previous: Grid = this, count: Int = 0): Grid {
         val next = previous.iterate()
 
-        return if (next == previous) return next
-        else iterateUntilStable(next)
+        return if (next == previous) { println("Interations: $count"); next }
+        else iterateUntilStable(next, count + 1)
     }
 
     private fun adjacentOccupied(rowIndex: Int, colIndex: Int): Int =
+        if (part2Rules) part2Adjacency(rowIndex, colIndex)
+    else part1Adjacency(rowIndex, colIndex)
+
+    private fun part1Adjacency(rowIndex: Int, colIndex: Int): Int =
         get(rowIndex, colIndex - 1).occupancy +
                 get(rowIndex, colIndex + 1).occupancy +
                 get(rowIndex - 1, colIndex).occupancy +
@@ -52,6 +57,37 @@ class Grid(val grid: List<List<Cell>>) {
                 get(rowIndex + 1, colIndex).occupancy +
                 get(rowIndex + 1, colIndex - 1).occupancy +
                 get(rowIndex + 1, colIndex + 1).occupancy
+
+    private fun part2Adjacency(rowIndex: Int, colIndex: Int): Int =
+        sliceOccupancy(rowIndex, colIndex, -1, -1) +
+        sliceOccupancy(rowIndex, colIndex, -1, 0) +
+        sliceOccupancy(rowIndex, colIndex, -1, 1) +
+        sliceOccupancy(rowIndex, colIndex, 0, -1) +
+        sliceOccupancy(rowIndex, colIndex, 0, 1) +
+        sliceOccupancy(rowIndex, colIndex, 1, -1) +
+        sliceOccupancy(rowIndex, colIndex, 1, 0) +
+        sliceOccupancy(rowIndex, colIndex, 1, 1)
+
+
+    fun sliceOccupancy(row: Int, col: Int, rowDirection: Int, colDirection: Int) =
+        slice(row, col, rowDirection, colDirection).filter { it.chair }.firstOrNull()?.occupancy ?: 0
+
+    fun slice(row: Int, col: Int, rowDirection: Int, colDirection: Int): List<Cell> {
+        val rowRange = when (rowDirection) {
+            1 -> (row + 1) until rows
+            -1 -> (row - 1) downTo 0
+            0 -> IntArray(columns) { row }.toList()
+            else -> throw IllegalArgumentException("Whoops")
+        }
+        val colRange = when (colDirection) {
+            1 -> (col + 1) until columns
+            -1 -> (col - 1) downTo 0
+            0 -> IntArray(rows) { col }.toList()
+            else -> throw IllegalArgumentException("Whoops")
+        }
+
+        return rowRange.zip(colRange).map { grid[it.first][it.second] }
+    }
 
     fun totalOccupied(): Int = grid.sumOf { row -> row.sumBy { it.occupancy } }
 
@@ -70,7 +106,7 @@ class Grid(val grid: List<List<Cell>>) {
 
 
     companion object {
-        fun fromSpec(gridSpec: List<String>) = Grid(gridSpec.map { row -> row.map { charToCell(it) } })
+        fun fromSpec(gridSpec: List<String>, part2Rules: Boolean = false) = Grid(gridSpec.map { row -> row.map { charToCell(it) } }, part2Rules)
 
         private fun charToCell(char: Char): Cell =
             when (char) {

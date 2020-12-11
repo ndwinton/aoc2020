@@ -106,4 +106,70 @@ class Day11Spec : FunSpec({
 
         result.totalOccupied().shouldBe(37)
     }
+
+    test("Obtaining a grid slice") {
+        val grid = Grid.fromSpec("""
+            L.L.L
+            L.#.#
+            #L.L#
+            #.#.#
+            #....
+        """.trimIndent().split("\n"))
+
+        grid.slice(0, 0, 1, 1).shouldBe(listOf(Floor, Floor,Floor, Floor))
+        grid.slice(4, 4, -1, -1).shouldBe(listOf(Floor, Floor, Floor, Empty))
+        grid.slice(2, 2, 0, -1).shouldBe(listOf(Empty, Full))
+        grid.slice(2, 2, -1, 0).shouldBe(listOf(Full, Empty))
+    }
+
+    test("Slice occupancy") {
+        val grid = Grid.fromSpec("""
+            L.L.L
+            L.#.#
+            #L.L#
+            #.#.#
+            #....
+        """.trimIndent().split("\n"))
+
+        grid.sliceOccupancy(0, 0, 1, 0).shouldBe(0)
+        grid.sliceOccupancy(0, 0, 1, 1).shouldBe(0)
+        grid.sliceOccupancy(0, 0, 0, 1).shouldBe(0)
+        grid.sliceOccupancy(2, 2, 1, 0).shouldBe(1)
+        grid.sliceOccupancy(2, 2, 0, 1).shouldBe(0)
+        grid.sliceOccupancy(2, 2, -1, 1).shouldBe(0)
+        grid.sliceOccupancy(3, 3, -1, 1).shouldBe(1)
+
+    }
+    test("Iterating a grid with part 2 rules") {
+        val beforeSpec = """
+            #.L#.L#.L#
+            #LLLLLL.LL
+            L.L.L..#..
+            ##L#.#L.L#
+            L.L#.#L.L#
+            #.L####.LL
+            ..#.#.....
+            LLL###LLL#
+            #.LLLLL#.L
+            #.L#LL#.L#
+        """.trimIndent().split("\n")
+
+        val grid = Grid.fromSpec(beforeSpec, true)
+        val result = grid.iterate().toSpec().split("\n")
+
+        val expected = """
+            #.L#.L#.L#
+            #LLLLLL.LL
+            L.L.L..#..
+            ##L#.#L.L#
+            L.L#.LL.L#
+            #.LLLL#.LL
+            ..#.L.....
+            LLL###LLL#
+            #.LLLLL#.L
+            #.L#LL#.L#
+        """.trimIndent().split("\n")
+
+        result.shouldBe(expected)
+    }
 })

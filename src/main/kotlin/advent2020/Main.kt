@@ -82,8 +82,10 @@ fun runDay10() {
 }
 
 fun runDay11() {
-    val grid = Grid.fromSpec(inputLines(11))
-    println("Part 1: " + grid.iterateUntilStable().totalOccupied())
+    val grid1 = Grid.fromSpec(inputLines(11))
+    println("Part 1: " + grid1.iterateUntilStable().totalOccupied())
+    val grid2 = Grid.fromSpec(inputLines(11), true)
+    println("Part 2: " + grid2.iterateUntilStable().totalOccupied())
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
