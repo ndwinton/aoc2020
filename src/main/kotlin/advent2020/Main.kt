@@ -16,6 +16,7 @@ fun main(args: Array<String>) {
         "9" -> runDay09()
         "10" -> runDay10()
         "11" -> runDay11()
+        "12" -> runDay12()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -86,6 +87,11 @@ fun runDay11() {
     println("Part 1: " + grid1.iterateUntilStable().totalOccupied())
     val grid2 = Grid.fromSpec(inputLines(11), true)
     println("Part 2: " + grid2.iterateUntilStable().totalOccupied())
+}
+
+fun runDay12() {
+    println("Part 1: " + NavState().execute(inputLines(12)).manhattan)
+    println("Part 2: " + NavState().waypointExecute(inputLines(12)).manhattan)
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
