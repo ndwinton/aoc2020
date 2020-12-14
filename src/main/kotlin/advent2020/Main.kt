@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
         "10" -> runDay10()
         "11" -> runDay11()
         "12" -> runDay12()
+        "13" -> runDay13()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -94,6 +95,10 @@ fun runDay12() {
     println("Part 2: " + NavState().waypointExecute(inputLines(12)).manhattan)
 }
 
+fun runDay13() {
+    println("Part 1: " + day13Part1(inputLines(13)))
+    println("Part 2: " + day13Part2(inputLines(13)))
+}
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
     .let { if (it.exists()) it.bufferedReader() else System.`in`.bufferedReader() }
 
