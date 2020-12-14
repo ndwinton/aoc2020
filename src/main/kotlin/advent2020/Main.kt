@@ -18,6 +18,7 @@ fun main(args: Array<String>) {
         "11" -> runDay11()
         "12" -> runDay12()
         "13" -> runDay13()
+        "14" -> runDay14()
         else -> println("""
             https://adventofcode.com/2020/
             
@@ -99,6 +100,12 @@ fun runDay13() {
     println("Part 1: " + day13Part1(inputLines(13)))
     println("Part 2: " + day13Part2(inputLines(13)))
 }
+
+fun runDay14() {
+    println("Part 1: " + day14Part1(inputLines(14)))
+    //println("Part 2: " + day14Part2(inputLines(14)))
+}
+
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
     .let { if (it.exists()) it.bufferedReader() else System.`in`.bufferedReader() }
 
