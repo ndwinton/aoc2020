@@ -3,6 +3,7 @@ package test.advent2020
 import advent2020.*
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import java.math.BigInteger
 
 class Day13Spec : FunSpec({
 
@@ -25,8 +26,9 @@ class Day13Spec : FunSpec({
     }
 
     test("Overall alignment period") {
-        findAlignmentTime(listOf(BusRecord(17,0), BusRecord(13,2), BusRecord(19,3))).shouldBe(3417L)
-        findAlignmentTime(listOf(BusRecord(67, 0), BusRecord(7, 1), BusRecord(59, 2), BusRecord(61, 3))).shouldBe(754018L)
+        findAlignmentTime(listOf(BusRecord(7,0), BusRecord(13,1), BusRecord(59,4), BusRecord(31, 6), BusRecord(19, 7))).shouldBe((1068781).toBigInteger())
+        findAlignmentTime(listOf(BusRecord(17,0), BusRecord(13,2), BusRecord(19,3))).shouldBe((3417).toBigInteger())
+        findAlignmentTime(listOf(BusRecord(67, 0), BusRecord(7, 1), BusRecord(59, 2), BusRecord(61, 3))).shouldBe((754018).toBigInteger())
     }
 
 })

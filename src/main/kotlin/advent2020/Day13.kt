@@ -1,5 +1,7 @@
 package advent2020
 
+import java.math.BigInteger
+
 fun parseBusIds(input: String) = input.split(",").filter { it != "x" }.map { it.toInt() }
 
 fun earliestAfterTimestampForBusId(timestamp: Int, busId: Int) =
@@ -22,27 +24,19 @@ fun parseBusRecords(input: String) =
         .mapIndexed { index, str -> if (str == "x") BusRecord(-1L, -1) else BusRecord(str.toLong(), index.toLong()) }
         .filter { it.period != -1L }
 
-fun findAlignmentTime(list: List<BusRecord>): Long {
+fun findAlignmentTime(list: List<BusRecord>): BigInteger = chineseRemainder(list.map {
+        val modulus = it.period.toBigInteger()
+        val remainder = (modulus - it.offset.toBigInteger()) % modulus
+        Pair(modulus, remainder)
+    })
 
-    val sorted = list.sortedByDescending { it.period }
-    val modulus = sorted.first().period
-    val remainder = ((modulus - sorted.first().offset) % modulus)
-
-    return solve(modulus, remainder, sorted.drop(1))
-}
-
-private tailrec fun solve(step: Long, start: Long, list: List<BusRecord>): Long {
-    println("$step / $start / $list")
-    if (list.isEmpty()) return start
-
-    val modulus = list.first().period
-    val remainder = ((modulus - list.first().offset) % modulus)
-
-    val found = generateSequence(start) { it + step }
-        .dropWhile { (it % modulus) != remainder }
-        .first()
-
-    return solve(step * modulus, found, list.drop(1))
+fun chineseRemainder(pairs: List<Pair<BigInteger, BigInteger>>): BigInteger {
+    val product = pairs.fold(BigInteger.ONE) { acc, pair -> acc * pair.first }
+    val sum = pairs.fold(BigInteger.ZERO) { acc, pair ->
+        val p = product / pair.first
+        acc + pair.second * p.modInverse(pair.first) * p
+    }
+    return sum % product
 }
 
 fun day13Part2(lines: List<String>) = findAlignmentTime(parseBusRecords(lines[1]))
