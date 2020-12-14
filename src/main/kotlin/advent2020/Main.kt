@@ -103,7 +103,7 @@ fun runDay13() {
 
 fun runDay14() {
     println("Part 1: " + day14Part1(inputLines(14)))
-    //println("Part 2: " + day14Part2(inputLines(14)))
+    println("Part 2: " + day14Part2(inputLines(14)))
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))
