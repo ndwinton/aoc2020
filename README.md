@@ -18,6 +18,12 @@ may be a simpler procedural approach because, again, it's good practice.
 I hope that things are reasonably readable. I aim to keep functions short
 and to name things clearly (well, clearly to me ...).
 
+As I've gone on I've also decided to stick to a self-imposed constraint
+of making everything purely functional with no mutable state -- there
+shouldn't be a single `var` in sight ... That has definitely stretched
+me on occasions and meant that it's taken me rather longer to solve
+some things than it might otherwise have done.
+
 I'm also experimenting a bit with different Kotlin idioms, so there might
 be different styles from day-to-day. For example, on day 3 I was going for
 a recursive solution and on day 4 I made everything an extension function,
