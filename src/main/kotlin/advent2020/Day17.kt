@@ -1,0 +1,63 @@
+package advent2020
+
+data class Point(val x: Int, val y:Int, val z: Int)
+
+class CellMap(val state: Set<Point>) {
+    val minima: Point
+    val maxima: Point
+
+    init {
+        minima = Point(state.minOf { it.x }, state.minOf { it.y }, state.minOf { it.z })
+        maxima = Point(state.maxOf { it.x }, state.maxOf { it.y }, state.maxOf { it.z })
+    }
+
+    fun neighbours(point: Point): Int = (point.x - 1 .. point.x + 1).flatMap { x ->
+        (point.y - 1 .. point.y + 1).flatMap { y ->
+            (point.z - 1 .. point.z + 1).map { z ->
+                if (Point(x, y, z).let { state.contains(it) && it != point}) 1 else 0
+            }
+        }
+    }.sum()
+
+    fun iterate(): CellMap = CellMap(
+        (minima.x - 1 .. maxima.x + 1).flatMap { x ->
+            (minima.y - 1 .. maxima.y + 1).flatMap { y ->
+                (minima.z - 1 .. maxima.z + 1).flatMap { z -> // Strictly, map is symmetrical in z, so we could optimize
+                    val point = Point(x, y, z)
+                    when (neighbours(point)) {
+                        3 -> listOf(point)
+                        2 -> if (state.contains(point)) listOf(point) else emptyList()
+                        else -> emptyList()
+                    }
+                }
+            }
+        }.toSet()
+    )
+
+    override fun toString(): String {
+        return "CellMap(minima = $minima, maxima = $maxima, state =\n" +
+        (minima.z .. maxima.z).map { z ->
+            (minima.y .. maxima.y).map { y ->
+                (minima.x .. maxima.x).map { x ->
+                    if (state.contains(Point(x, y, z))) "#" else "."
+                }.joinToString("")
+            }
+        }.map { it.joinToString("\n") }.joinToString("\n---\n") + "\n)"
+    }
+
+    companion object {
+        fun parseStartMap(input: String): CellMap =
+            CellMap(
+                input.split("\n")
+                    .flatMapIndexed { y, line ->
+                        line.mapIndexed { x, ch -> Pair(x, ch) }
+                            .filter { it.second == '#' }
+                            .map { Point(it.first, y, 0) }
+                }.toSet()
+            )
+    }
+}
+
+tailrec fun activeCount(map: CellMap, count: Int): Int = if (count == 0) map.state.size else activeCount(map.iterate(), count - 1)
+
+fun day17Part1(input: String) = activeCount(CellMap.parseStartMap(input), 6)
