@@ -74,10 +74,10 @@ class Day17Spec : FunSpec({
         gen2.neighbours(Point(1, 1, 1)).shouldBe(8)
     }
 
-    test("Iterating the map") {
+    test("Iterating the map one step") {
         val start = CellMap.parseStartMap(input)
 
-        val result = start.iterate()
+        val result = start.next()
 
         result.state.shouldBe(setOf(
             Point(x=0, y=1, z=-1),
@@ -96,6 +96,14 @@ class Day17Spec : FunSpec({
 
     test("Part 1") {
         day17Part1(input).shouldBe(112)
+    }
+
+    test("4 dimensions") {
+        val start = CellMap.parseStartMap(input, true)
+
+        val result = start.iterate(6)
+
+        result.state.size.shouldBe(848)
     }
 
     test("Part 2") {

@@ -22,7 +22,7 @@ class CellMap(val state: Set<Point>, val use4d: Boolean = false) {
         }
     }.sum()
 
-    fun iterate(): CellMap = CellMap(
+    fun next(): CellMap = CellMap(
         (minima.x - 1 .. maxima.x + 1).flatMap { x ->
             (minima.y - 1 .. maxima.y + 1).flatMap { y ->
                 (minima.z - 1 .. maxima.z + 1).flatMap { z -> // Strictly, map is symmetrical in w and z, so we could optimize
@@ -40,15 +40,19 @@ class CellMap(val state: Set<Point>, val use4d: Boolean = false) {
         }.toSet(), use4d
     )
 
+    fun iterate(iterations: Int) = generateSequence(this) { it.next() }.drop(iterations).first()
+
     override fun toString(): String {
-        return "CellMap(minima = $minima, maxima = $maxima, state =\n" +
-        (minima.z .. maxima.z).map { z ->
-            (minima.y .. maxima.y).map { y ->
-                (minima.x .. maxima.x).map { x ->
-                    if (state.contains(Point(x, y, z))) "#" else "."
-                }.joinToString("")
-            }
-        }.map { it.joinToString("\n") }.joinToString("\n---\n") + "\n)"
+        return "CellMap(minima = $minima, maxima = $maxima, use4d = ${use4d}, state =\n" +
+                (minima.w .. maxima.w).map { w ->
+                    (minima.z..maxima.z).map { z ->
+                        (minima.y..maxima.y).map { y ->
+                            (minima.x..maxima.x).map { x ->
+                                if (state.contains(Point(x, y, z))) "#" else "."
+                            }.joinToString("")
+                        }
+                    }.map { it.joinToString("\n") }
+                }.map { it.joinToString("\n---\n") }.joinToString("\n===\n") + "\n)"
     }
 
     companion object {
@@ -64,8 +68,8 @@ class CellMap(val state: Set<Point>, val use4d: Boolean = false) {
     }
 }
 
-tailrec fun activeCount(map: CellMap, count: Int): Int = if (count == 0) map.state.size else activeCount(map.iterate(), count - 1)
+private fun activeCountAfterIterations(map: CellMap, iterations: Int): Int = map.iterate(iterations).state.size
 
-fun day17Part1(input: String) = activeCount(CellMap.parseStartMap(input), 6)
+fun day17Part1(input: String) = activeCountAfterIterations(CellMap.parseStartMap(input), 6)
 
-fun day17Part2(input: String) = activeCount(CellMap.parseStartMap(input, true), 6)
+fun day17Part2(input: String) = activeCountAfterIterations(CellMap.parseStartMap(input, true), 6)
