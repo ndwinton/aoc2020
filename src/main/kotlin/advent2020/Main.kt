@@ -121,6 +121,7 @@ fun runDay16() {
 
 fun runDay17() {
     println("Part 1: " + day17Part1(inputAsText(17)))
+    println("Part 2: " + day17Part2(inputAsText(17)))
 }
 
 fun inputForDay(dayNum: Int): Reader = File(String.format("inputs/%02d.txt", dayNum))

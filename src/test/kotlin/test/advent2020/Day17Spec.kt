@@ -2,6 +2,8 @@ package test.advent2020
 
 import advent2020.CellMap
 import advent2020.Point
+import advent2020.day17Part1
+import advent2020.day17Part2
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
@@ -90,5 +92,13 @@ class Day17Spec : FunSpec({
             Point(x=2, y=2, z=0),
             Point(x=2, y=2, z=1)
         ))
+    }
+
+    test("Part 1") {
+        day17Part1(input).shouldBe(112)
+    }
+
+    test("Part 2") {
+        day17Part2(input).shouldBe(848)
     }
 })
